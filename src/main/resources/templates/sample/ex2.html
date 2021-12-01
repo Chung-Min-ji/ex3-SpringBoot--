@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li th:each="dto : ${list}">
+        [[${dto}]]
+    </li>
+</ul>
+------------------------------------
+<ul>
+    <li th:each="dto, state : ${list}">
+        [[${state.index}]] --- [[${dto}]]
+    </li>
+</ul>
+------------------------------------
+<ul>
+<!--    sno의 값이 5의 배수들만 출력-->
+    <li th:each="dto, state : ${list}" th:if="${dto.sno % 5 == 0}">
+        [[${dto}]]
+    </li>
+</ul>
+------------------------------------
+<ul>
+<!--    sno가 5로 나눈 나머지가 0인 경우에는 sno만을 출력하고, 그렇지 않다면 SampleDTO의 first를 출력-->
+    <li th:each="dto, state: ${list}">
+        <span th:if="${dto.sno % 5 == 0}" th:text="${'-------------'+ dto.sno}"></span>
+        <span th:unless="${dto.sno % 5 == 0}" th:text="${dto.first}"></span>
+    </li>
+</ul>
+-->> th:block 이용하기
+<ul>
+    <th:block th:each="dto: ${list}">
+        <li th:text="${dto.sno%5 == 0} ? ${dto.sno} : ${dto.first}"></li>
+    </th:block>
+</ul>
+------------------------------------
+<ul>
+    <li th:each="dto, state: ${list}"
+        th:text="${dto.sno % 5 == 0} ? ${dto.sno} : ${dto.first}"></li>
+</ul>
+
+
+<style>
+    .target{
+        background-color: red;
+    }
+</style>
+<ul>
+    <li th:each="dto, state:${list}" th:class="${dto.sno%5 == 0} ? 'target'" th:text="${dto}">
+    </li>
+</ul>
+
+</body>
+</html>
